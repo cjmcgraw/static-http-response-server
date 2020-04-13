@@ -1,0 +1,35 @@
+version: "3.7"
+
+services:
+  first_server:
+    build: ./server
+    image: qarlm/static-http-response-server:development
+    ports:
+      - 8001:80
+    environment:
+      RESPONSE: first_server
+
+  second_server:
+    image: qarlm/static-http-response-server:development
+    ports:
+      - 8002:80
+    environment:
+      RESPONSE: second_server
+
+
+  third_server:
+    image: qarlm/static-http-response-server:development
+    ports:
+      - 8003:80
+    environment:
+      RESPONSE: third_server
+
+
+  test_container:
+    build: ./test_container
+    volumes:
+      - ./test_container:/app/
+    depends_on:
+      - first_server
+      - second_server
+      - third_server

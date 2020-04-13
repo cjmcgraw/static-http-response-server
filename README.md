@@ -9,6 +9,11 @@ I could up the container with an environmental variable, then it would return it
 
 This repository was created to fill that niche!
 
+
+### But I don't even want to customize the text
+Well then just call the different versions, they all default echo their build numbers.  Jeeze. You really should consider setting it to something that makes sense, or is known random. 
+
+
 ---
 ### running with docker
 
@@ -41,68 +46,25 @@ server: uvicorn
 
 ----
 
-### running with docker-compose
+### developing
 
-Running with docker-compose. Use this as your docker-compose.yml file:
+I highly recommend becoming familiar with the needed docker-compose commands to run
+this repository. Here is a brief example of how to build and run this stack:
+
+
+build all images:
 ```
-version: "3.7"
-
-services:
-  first_server:
-    image: qarlm/static-http-response-server
-    ports:
-      - 8001:80
-    environment:
-      RESPONSE: first_server
-
-  second_server:
-    image: qarlm/static-http-response-server
-    ports:
-      - 8002:80
-    environment:
-      RESPONSE: second_server
+docker-compose build
 ```
 
-then running the following http requests yields the expected results:
-
+run all images:
 ```
-http -v localhost:8001
-GET / HTTP/1.1
-Accept: */*
-Accept-Encoding: gzip, deflate
-Connection: keep-alive
-Host: localhost:8001
-User-Agent: HTTPie/2.0.0
-
-
-
-HTTP/1.1 200 OK
-content-length: 14
-content-type: application/json
-date: Sat, 11 Apr 2020 08:15:50 GMT
-server: uvicorn
-
-"first_server"
+docker-compose up
 ```
 
-and
-
+run tests exclusively:
 ```
-http -v localhost:8002
-GET / HTTP/1.1
-Accept: */*
-Accept-Encoding: gzip, deflate
-Connection: keep-alive
-Host: localhost:8002
-User-Agent: HTTPie/2.0.0
-
-
-
-HTTP/1.1 200 OK
-content-length: 15
-content-type: application/json
-date: Sat, 11 Apr 2020 08:16:16 GMT
-server: uvicorn
-
-"second_server"
+docker-compose run test_container 
 ```
+
+or you can just use the `run-tests.sh` on a *nix system
